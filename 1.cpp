@@ -45,10 +45,8 @@ int check(char c){                     //检查是否为数字 字母 下划线
 
 void init(){        //初始化map（单词符号和种别码一一对应关系）
     for(int q=1;q<=28;q++){
-        cout<<word[q]<<" "<<q<<endl;
         mmap.insert(map<string,int>::value_type(word[q],q));
     }
-    cout<<mmap[";"]<<endl;
 }
 
 void yu_chu_li(){   //预处理，去掉空白符
@@ -105,9 +103,9 @@ int main(){
     }
     yu_chu_li();
     init();
-    out<<str<<endl<<endl<<endl;
     string s1="",s2="";
     int in=1;                   //为1识别关键字   -1其他
+    str+="  ";
     for(int q=0;q<str.length();q++){
         if(str[q]==' '){
             goto part;
@@ -129,7 +127,6 @@ int main(){
         }
         part:
         if(in!=check(str[q])){
-      //      out<<s1<<endl;
             if(s1.length()>0){
                 if(mmap[s1]!=0){        //是否为关键字
                     guan.insert(map<string,int>::value_type(s1,mmap[s1]));
@@ -147,30 +144,25 @@ int main(){
             s1="";
         }
     }
+    cout<<"success"<<endl;
+    if(vec.size()!=0) out<<vec.size()<<" errors"<<endl;
     out<<"------关键字------"<<endl;
-    cout<<"------关键字------"<<endl;
     for(map<string,int>::iterator it=guan.begin();it!=guan.end();it++){     //关键字输出
         out<<"<"<<it->first<<","<<it->second<<">"<<endl;
-        cout<<"<"<<it->first<<","<<it->second<<">"<<endl;
     }
     out<<"------标识符------"<<endl;
-    cout<<"------标识符------"<<endl;
     for(set<string>::iterator it=biao_zhi.begin();it!=biao_zhi.end();it++){  //标识符输出
         out<<"<标识符,"<<*it<<">"<<endl;
-        cout<<"<标识符,"<<*it<<">"<<endl;
     }
     out<<"------无符号整型常量------"<<endl;
-    cout<<"------无符号整型常量------"<<endl;
     for(set<string>::iterator it=v.begin();it!=v.end();it++){            //无符号整数输出
         out<<"<无符号整型常量,"<<*it<<">"<<endl;
-        cout<<"<无符号整型常量,"<<*it<<">"<<endl;
     }
     out<<"------错误------"<<endl;
-    cout<<"------错误------"<<endl;
     for(set<string>::iterator it=vec.begin();it!=vec.end();it++){        //错误输出
         out<<"<错误,"<<*it<<">"<<endl;
-        cout<<"<错误,"<<*it<<">"<<endl;
     }
     out.close();
+    data.close();
     return 0;
 }
